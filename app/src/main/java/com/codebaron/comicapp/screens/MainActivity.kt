@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     SplashScreen()
                     if (isNetworkAvailable(this)) {
                         LaunchedEffect(Unit) {
-                            delay(4000)
+                            delay(2000)
                             startActivity(Intent(this@MainActivity, ComicsHomeActivity::class.java))
                         }
                     } else {
