@@ -2,33 +2,38 @@ package com.codebaron.comicapp.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.codebaron.comicapp.R
 
 // Set of Material typography styles to start with
+val EduFoundationTypography = FontFamily(
+    Font(R.font.edu_nswact_foundation_regular),
+    Font(R.font.edu_nswact_foundation_bold, FontWeight.Bold),
+    Font(R.font.edu_nswact_foundation_semi_bold, FontWeight.SemiBold),
+    Font(R.font.edu_nswact_foundation_medium, FontWeight.Medium)
+)
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+    displaySmall = TextStyle(
+        fontFamily = EduFoundationTypography,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Medium
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+    displayLarge = TextStyle(
+        fontFamily = EduFoundationTypography,
+        fontSize = 26.sp,
+        fontWeight = FontWeight.Bold
+    ),
+    titleLarge = TextStyle(
+        fontFamily = EduFoundationTypography,
+        fontSize = 50.sp,
+        fontWeight = FontWeight.ExtraBold
+    ),
+    bodySmall = TextStyle(
+        fontFamily = EduFoundationTypography,
+        fontSize = 12.sp
     )
-    */
+
 )
