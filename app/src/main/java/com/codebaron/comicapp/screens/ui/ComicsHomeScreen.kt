@@ -2,38 +2,51 @@
 
 package com.codebaron.comicapp.screens.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.codebaron.comicapp.models.ComicDTO
-import com.codebaron.comicapp.models.dummyComicDTOList
+import com.codebaron.comicapp.roomdb.ComicRoomDatabase
+import com.codebaron.comicapp.screens.activities.ComicsRequestHandler
 
 @Composable
 fun ComicsHomeScreen(navController: NavHostController) {
+    val comicId = remember { mutableStateOf(1) }
+
     Column {
         SearchBar(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(40.dp))
-        ComicScreenUI(dummyComicDTOList[0])
+        val latestComics = ComicsRequestHandler(comicId.value.toString())
+        latestComics?.let { ComicScreenUI(comics = it, navController = navController) { } }
     }
 }
 
 @Composable
-fun ComicScreenUI(comics: ComicDTO) {
+fun ComicScreenUI(comics: ComicDTO, navController: NavHostController, onClick: () -> Unit) {
+    val context = LocalContext.current
+    val isFavourite = remember { mutableStateOf(false) }
+
     Column(
         modifier =
         Modifier
@@ -87,9 +100,19 @@ fun ComicScreenUI(comics: ComicDTO) {
                                 contentAlignment = Alignment.CenterEnd,
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.Favorite,
+                                    imageVector = if (isFavourite.value) Icons.Outlined.Favorite else Icons.Filled.Favorite,
                                     contentDescription = "Favourite",
-                                    modifier = Modifier.clickable { }
+                                    modifier = Modifier.clickable {
+                                        isFavourite.value = true
+                                        val localDatabase = ComicRoomDatabase(context)
+                                        localDatabase.ComicDao().insertComic(comics)
+                                        Toast.makeText(
+                                            context,
+                                            "Added to favourite",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
+                                    tint = if (!isFavourite.value) Color.Black else  Color.Red
                                 )
                             }
                         }
@@ -107,7 +130,9 @@ fun ComicScreenUI(comics: ComicDTO) {
                 Icon(imageVector = Icons.Default.SkipPrevious, contentDescription = "Previous")
                 Text(text = "Previous")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                onClick.invoke()
+            }) {
                 Text(text = "Next")
                 Icon(imageVector = Icons.Default.SkipNext, contentDescription = "Previous")
             }
