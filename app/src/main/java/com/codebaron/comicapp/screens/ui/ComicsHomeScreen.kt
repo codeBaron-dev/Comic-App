@@ -6,11 +6,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,73 +25,91 @@ import com.codebaron.comicapp.models.dummyComicDTOList
 
 @Composable
 fun ComicsHomeScreen(navController: NavHostController) {
-    LazyColumn {
-        item {
-            SearchBar(modifier = Modifier.fillMaxWidth())
-        }
-        items(dummyComicDTOList) { comics ->
-            ComicScreenUI(comics)
-        }
+    Column {
+        SearchBar(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.size(40.dp))
+        ComicScreenUI(dummyComicDTOList[0])
     }
 }
 
 @Composable
 fun ComicScreenUI(comics: ComicDTO) {
-    Card(
+    Column(
         modifier =
         Modifier
             .padding(16.dp)
-            .clickable { }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
+        Card(
+            modifier =
+            Modifier
+                .clickable { }
         ) {
-            Image(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp),
-                painter = rememberAsyncImagePainter(model = comics.img), contentDescription = null,
-                contentScale = ContentScale.FillBounds
-            )
-            Spacer(modifier = Modifier.size(10.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)
+                    .padding(20.dp)
             ) {
-                Column {
-                    Text(
-                        text = comics.title,
-                        style = MaterialTheme.typography.displayLarge,
-                        maxLines = 1,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.size(5.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(450.dp),
+                    painter = rememberAsyncImagePainter(model = comics.img),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                ) {
+                    Column {
                         Text(
-                            text = "Release date: ${comics.day}-${comics.month}-${comics.year}",
-                            style = MaterialTheme.typography.displaySmall,
+                            text = comics.title,
+                            style = MaterialTheme.typography.displayLarge,
                             maxLines = 1,
+                            modifier = Modifier.fillMaxWidth()
                         )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .width(100.dp),
-                            contentAlignment = Alignment.CenterEnd,
+                        Spacer(modifier = Modifier.size(5.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Favorite,
-                                contentDescription = "Favourite",
-                                modifier = Modifier.clickable { }
+                            Text(
+                                text = "Release date: ${comics.day}-${comics.month}-${comics.year}",
+                                style = MaterialTheme.typography.displaySmall,
+                                maxLines = 1,
                             )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .width(100.dp),
+                                contentAlignment = Alignment.CenterEnd,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Favorite,
+                                    contentDescription = "Favourite",
+                                    modifier = Modifier.clickable { }
+                                )
+                            }
                         }
                     }
                 }
+            }
+        }
+        Spacer(modifier = Modifier.size(40.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.SkipPrevious, contentDescription = "Previous")
+                Text(text = "Previous")
+            }
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Next")
+                Icon(imageVector = Icons.Default.SkipNext, contentDescription = "Previous")
             }
         }
     }

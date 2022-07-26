@@ -1,4 +1,4 @@
-package com.codebaron.comicapp.screens
+package com.codebaron.comicapp.screens.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     } else {
                         CustomMaterialDialog(
                             "No Internet Connection",
-                            "To have a google experience with this ${R.string.app_name}, please ensure you're have a stable internet connection",
+                            "To have a google user experience using this application, please ensure you're have a stable internet connection",
                             "Okay", "Cancel"
                         )
                     }

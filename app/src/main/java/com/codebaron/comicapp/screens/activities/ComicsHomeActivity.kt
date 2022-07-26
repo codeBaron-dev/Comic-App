@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.codebaron.comicapp.screens
+package com.codebaron.comicapp.screens.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

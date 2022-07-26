@@ -17,12 +17,12 @@
         android:theme="@style/Theme.ComicApp"
         tools:targetApi="31">
         <activity
-            android:name=".screens.ComicsHomeActivity"
+            android:name=".screens.activities.ComicsHomeActivity"
             android:exported="false"
             android:label="@string/title_activity_comics_home"
             android:theme="@style/Theme.ComicApp" />
         <activity
-            android:name=".screens.MainActivity"
+            android:name=".screens.activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ComicApp">
             <intent-filter>
